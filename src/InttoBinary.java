@@ -1,10 +1,19 @@
+import java.util.Scanner;
+
 
 public class InttoBinary {
 
-    public static void main(String[] args) {
-        String result = convert(1289);
-        System.out.println(result);
+    public static void main(final String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Enter a number: ");
+        final int num = scanner.nextInt();
+        System.out.println("Your binary num: " + convert(num));
+
+        String result = convert(1289);
+        System.out.println("Your binary num: " + result);
+
+        scanner.close();
     }
 
     public static String convert(int number) {
