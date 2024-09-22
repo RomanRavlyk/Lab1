@@ -17,7 +17,7 @@ public class BankTransactions {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Available accounts for user " + user1.user_name + ":");
+        System.out.println("Available accounts for user " + user1.getUser_name() + ":");
         System.out.println("1. Account 1 (MonoBank) balance: " + bankAccount1.getBalance() + " UAH");
         System.out.println("2. Account 2 (European Bank) balance: " + bankAccount2.getBalance() + " EUR");
         System.out.println("3. Account 3 (American Bank) balance: " + bankAccount3.getBalance() + " USD");
@@ -119,6 +119,14 @@ public class BankTransactions {
         public User(String userName, List<BankAccount> accounts) {
             this.user_name = userName;
             this.accounts = accounts;
+        }
+
+        public String getUser_name() {
+            return user_name;
+        }
+
+        public List<BankAccount> getAccounts() {
+            return accounts;
         }
 
         public void transfer(BankAccount fromAccount, BankAccount toAccount, double amount) {
