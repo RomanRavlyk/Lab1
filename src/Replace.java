@@ -1,9 +1,9 @@
 public class Replace {
     public static void main(String[] args) {
-        Replace_num();
+        replaceNum();
     }
 
-    public static void Replace_num() {
+    public static void replaceNum() {
         for (int i = 0; i < 100; i++) {
             if ((i % 3 == 0) && (i % 5 == 0)) {
                 System.out.println("FizzBuzz");

@@ -5,14 +5,14 @@ public class StrNumber {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter a string: ");
-        String str = scanner.nextLine();
+        String userInput = scanner.nextLine();
 
 
-        String teststr = "kkdddddooooeeeewww";
+//        String teststr = "kkdddddooooeeeewww";
 
         char[] chars;
 
-        chars = str.toCharArray();
+        chars = userInput.toCharArray();
 
 //        chars = teststr.toCharArray();
 
@@ -23,11 +23,10 @@ public class StrNumber {
         for (char ch : chars) {
             if (!arr[ch]) {
                 SymbolNum chr = new SymbolNum(ch);
-                System.out.println(chr.getSymbol() + "-" + chr.countchars(chars));
+                System.out.println(chr.getSymbol() + "-" + chr.countСhars(chars));
                 arr[ch] = true;
             }
         }
-
     }
 
     public static class SymbolNum {
@@ -46,7 +45,7 @@ public class StrNumber {
             return number;
         }
 
-        public int countchars(char[] chars) {
+        public int countСhars(char[] chars) {
             for (char cha : chars) {
                 if (cha == symbol) {
                     number++;

@@ -27,7 +27,7 @@ public class SubstrInMtx {
 
         System.out.println("Enter substring: ");
         String substring = scanner.nextLine();
-        System.out.println("К-сть входжень " + substring + " - " + CountSubstr(strArray, substring));
+        System.out.println("К-сть входжень " + substring + " - " + countSubstr(strArray, substring));
 
         String[][] teststr = {
                 {"3", "1", "3"},
@@ -36,10 +36,10 @@ public class SubstrInMtx {
         };
 
         String substr = "3";
-        System.out.println("К-сть входжень " + substr + " - " + CountSubstr(teststr, "3"));
+        System.out.println("К-сть входжень " + substr + " - " + countSubstr(teststr, "3"));
     }
 
-    public static int CountSubstr(final String[][] str, String substr) {
+    public static int countSubstr(final String[][] str, String substr) {
         int count = 0;
         for (int i = 0; i < str.length; i++) {
             for (int j = 0; j < str[i].length; j++) {

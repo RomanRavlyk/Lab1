@@ -54,22 +54,22 @@ public class BankTransactions {
     }
 
     public static class Bank {
-        private String bankname = " ";
-        private String bankcurrency = " ";
+        private String bankName = " ";
+        private String bankCurrency = " ";
         private double exchangeRateToUAH;
 
-        public Bank(String bankname, String bankucrrency, double exchangeRateToUAH) {
-            this.bankname = bankname;
-            this.bankcurrency = bankucrrency;
+        public Bank(String bankName, String bankCurrency, double exchangeRateToUAH) {
+            this.bankName = bankName;
+            this.bankCurrency = bankCurrency;
             this.exchangeRateToUAH = exchangeRateToUAH;
         }
 
         public String getBankname() {
-            return bankname;
+            return bankName;
         }
 
         public String getBankcurrency() {
-            return bankcurrency;
+            return bankCurrency;
         }
 
         public double getExchangeRateToUAH() {
@@ -113,16 +113,16 @@ public class BankTransactions {
     }
 
     public static class User {
-        private String user_name = " ";
+        private String userName = " ";
         private List<BankAccount> accounts;
 
         public User(String userName, List<BankAccount> accounts) {
-            this.user_name = userName;
+            this.userName = userName;
             this.accounts = accounts;
         }
 
         public String getUser_name() {
-            return user_name;
+            return userName;
         }
 
         public List<BankAccount> getAccounts() {

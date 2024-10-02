@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 
-public class InttoBinary {
+public class IntoBinary {
 
     public static void main(final String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -18,14 +18,14 @@ public class InttoBinary {
 
     public static String convert(int number) {
 
-        String binarynum = "";
+        String binaryNum = "";
 
         while (number != 0) {
             int last = number % 2;
             number = number / 2;
-            binarynum = last + binarynum;
+            binaryNum = last + binaryNum;
         }
 
-        return binarynum;
+        return binaryNum;
     }
 }

@@ -1,75 +1,55 @@
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ParseStr {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter an expression: ");
+        System.out.print("Enter expression: ");
         String expression = scanner.nextLine();
-        System.out.println("Result: " + ParseCalc(expression));
 
-        System.out.println("Result: " + ParseCalc("9 - 4"));
+        try {
+            double result = calcExpr(expression);
+            System.out.println("Result: " + result);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
         scanner.close();
     }
 
-    public static int ParseCalc(final String str) {
-        String fnum = " ";
-        String secnum = " ";
-        char operator = ' ';
-        boolean issec = false;
-        int res = 0;
+    public static double calcExpr(String expression) throws Exception {
+        expression = expression.replace("=", "").replace("?", "").trim();
 
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            switch (ch) {
-                case '+':
-                    operator = '+';
-                    issec = true;
-                    break;
-                case '-':
-                    operator = '-';
-                    issec = true;
-                    break;
-                case '*':
-                    operator = '*';
-                    issec = true;
-                    break;
-                case '/':
-                    operator = '/';
-                    issec = true;
-                    break;
-                default:
-                    if (issec) {
-                        secnum += ch;
-                    } else {
-                        fnum += ch;
-                    }
-            }
+        expression = expression.replaceAll("\\-\\s+", "-");
+
+        Pattern pattern = Pattern.compile("(-?\\d+\\.?\\d*)\\s*([+\\-*/])\\s*(-?\\d+\\.?\\d*)");
+        Matcher matcher = pattern.matcher(expression);
+
+        if (!matcher.matches()) {
+            throw new Exception("Invalid expression format. Example: - 9 + 8");
         }
 
-
-        int num1 = Integer.parseInt(fnum.trim());
-        int num2 = Integer.parseInt(secnum.trim());
+        double operand1 = Double.parseDouble(matcher.group(1));
+        double operand2 = Double.parseDouble(matcher.group(3));
+        String operator = matcher.group(2);
 
         switch (operator) {
-            case '+':
-                res = num1 + num2;
-                break;
-            case '-':
-                res = num1 - num2;
-                break;
-            case '*':
-                res = num1 * num2;
-                break;
-            case '/':
-                if (num2 != 0) {
-                    res = num1 / num2;
-                } else {
-                    System.out.println("Division by zero!");
+            case "+":
+                return operand1 + operand2;
+            case "-":
+                return operand1 - operand2;
+            case "*":
+                return operand1 * operand2;
+            case "/":
+                if (operand2 == 0) {
+                    throw new ArithmeticException("Division by zero.");
                 }
-                break;
+                return operand1 / operand2;
+            default:
+                throw new Exception("Unknown operator: " + operator);
         }
-        return res;
     }
 }
+

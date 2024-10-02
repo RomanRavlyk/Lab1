@@ -1,102 +1,87 @@
+
 import java.util.Scanner;
+import java.util.List;
+
 
 public class Converter {
     public static void main(String[] args) {
+        Currency UAH = new Currency("UAH", 1.0);
+        Currency USD = new Currency("USD", 0.027);
+        Currency EUR = new Currency("EUR", 0.036);
+        Currency CAD = new Currency("CAD", 0.025);
+
+        List<String> currenciesNames = List.of(UAH.getName(), USD.getName(), EUR.getName(), CAD.getName());
+        List<Currency> currencies = List.of(UAH, USD, EUR, CAD);
 
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter converting line, like: 100 USD into UAH ");
+        String convertingArguments = scanner.nextLine();
 
-        System.out.println("Enter exchange value, like (600 UAH into USD or 500 USD from UAH): ");
-        String str = scanner.nextLine();
-        String wrds[] = str.split(" ");
-
-        double amount1 = checknum(wrds);
-        double convertedNumber1 = convert(wrds, amount1);
-
-        System.out.println("Converted amount: " + convertedNumber1);
-
-        String testStr = "600 UAH into CANUSD";
-        String[] words = testStr.split(" ");
-
-        double amount = checknum(words);
-        double convertedNumber = convert(words, amount);
-
-        System.out.println("Converted amount: " + convertedNumber);
-    }
-
-    public static double checknum(final String[] str) {
-        StringBuilder number = new StringBuilder();
-
-        for (String s : str) {
-            if (isNumeric(s)) {
-                number.append(s);
-            }
-        }
-
-        return Double.parseDouble(number.toString());
-    }
-
-    public static boolean isNumeric(String str) {
-        if (str == null || str.isEmpty()) {
-            return false;
-        }
         try {
-            Double.parseDouble(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+            double result = getConvertingArguments(convertingArguments, currenciesNames, currencies);
+            System.out.println("Result of conversation: " + result);
+        } catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            scanner.close();
         }
     }
 
-    public static double convert(String[] str, double amount) {
-        boolean hasUAH = false;
-        boolean hasUSD = false;
-        boolean hasCANUSD = false;
-        boolean hasEUR = false;
+    public static class Currency {
+        private String name = " ";
+        private double rateToUAH = 0.0;
 
-        boolean convertingFrom = false;
+        public Currency(String name, double rateToUAH) {
+            this.name = name;
+            this.rateToUAH = rateToUAH;
+        }
 
-        for (String s : str) {
-            if (s.equalsIgnoreCase("UAH")) {
-                hasUAH = true;
-            } else if (s.equalsIgnoreCase("USD")) {
-                hasUSD = true;
-            } else if (s.equalsIgnoreCase("CANUSD")) {
-                hasCANUSD = true;
-            } else if (s.equalsIgnoreCase("EUR")) {
-                hasEUR = true;
-            } else if (s.equalsIgnoreCase("into")) {
-                convertingFrom = true;
+        public String getName() {
+            return name;
+        }
+
+        public double getRateToUAH() {
+            return rateToUAH;
+        }
+
+    }
+
+    public static double getConvertingArguments(String convertingArgument, List <String> currenciesNames, List <Currency> currencies) throws Exception {
+        convertingArgument = convertingArgument.trim();
+
+        String[] arguments = convertingArgument.split("\\s+");
+        double result = 0;
+
+        String firstCurrency = arguments[1].toUpperCase();
+        String secondCurrency = arguments[3].toUpperCase();
+
+        if (!(currenciesNames.contains(firstCurrency) && currenciesNames.contains(secondCurrency))) {
+            throw new Exception("Invalid input of Currencies!");
+        }
+
+        double amount = Double.parseDouble(arguments[0]);
+
+        if (!(arguments[2].equals("into"))) {
+            throw new Exception("Invalid input, your request must contain into!");
+        }
+
+        Currency firstCurrencyObject = null;
+        Currency secondCurrencyObject = null;
+
+        for (Currency currency: currencies) {
+            if (currency.getName().equals(firstCurrency)) {
+                firstCurrencyObject = currency;
+            }
+            if (currency.getName().equals(secondCurrency)) {
+                secondCurrencyObject = currency;
             }
         }
 
-        if (hasUAH && hasUSD) {
-            if (convertingFrom) {                   // UAH to USD
-                amount = amount / 40;
-                System.out.println("Conversion: UAH to USD");
-            } else {                                // USD to UAH
-                amount = amount * 40;
-                System.out.println("Conversion: USD to UAH");
-            }
-        } else if (hasUAH && hasCANUSD) {
-            if (convertingFrom) {                   // UAH to CANUSD
-                amount = amount / 50;
-                System.out.println("Conversion: UAH to CANUSD");
-            } else {                                // CANUSD to UAH
-                amount = amount * 50;
-                System.out.println("Conversion: CANUSD to UAH");
-            }
-        } else if (hasUAH && hasEUR) {
-            if (convertingFrom) {                   // UAH to EURO
-                amount = amount / 45;
-                System.out.println("Conversion: UAH to EUR");
-            } else {                                // EURO to UAH
-                amount = amount * 45;
-                System.out.println("Conversion: EUR to UAH");
-            }
-        } else {
-            System.out.println("Nothing to convert!");
+        if (firstCurrencyObject != null && secondCurrencyObject != null) {
+            double amountInUAH = amount * firstCurrencyObject.getRateToUAH();
+            result = amountInUAH / secondCurrencyObject.getRateToUAH();
         }
 
-        return amount;
+        return result;
     }
 }
